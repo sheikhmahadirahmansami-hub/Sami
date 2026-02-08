@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sheikh Mahadi Rahman Sami | Portfolio</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600;800&family=Noto+Serif+Bengali:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --accent-red: #ff3c3c;
+            --manuscript-bg: #fdf5e6;
+            --manuscript-text: #4a3728;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            scroll-behavior: smooth;
+        }
+
+        .cinzel { font-family: 'Cinzel', serif; }
+        .playfair { font-family: 'Playfair Display', serif; }
+        .bengali { font-family: 'Noto Serif Bengali', serif; }
+
+        /* Cinematic Backgrounds */
+        .hero-gradient {
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+        }
+
+        .rebel-bg {
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-attachment: fixed;
+            background-size: cover;
+        }
+
+        .writer-bg {
+            background-color: var(--manuscript-bg);
+            background-image: url('https://www.transparenttextures.com/patterns/old-paper.png');
+            color: var(--manuscript-text);
+        }
+
+        .vignette {
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in { animation: fadeIn 1s ease-out forwards; }
+
+        .glow-red {
+            text-shadow: 0 0 10px rgba(255, 60, 60, 0.5);
+        }
+
+        .admin-only {
+            display: none;
+        }
+
+        .is-admin .admin-only {
+            display: block;
+        }
+
+        .glass-nav {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Writing Mode styles */
+        .manuscript-card {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        .manuscript-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .admin-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        /* Particle styles */
+        .particle {
+            position: absolute;
+            background: rgba(74, 55, 40, 0.2);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="glass-nav fixed top-0 w-full z-50 px-6 py-4 flex justify-between items-center">
+        <div class="cinzel text-xl font-bold tracking-widest text-white">S.M.R.S</div>
+        <div class="hidden md:flex space-x-8 text-sm uppercase tracking-widest font-medium">
+            <a href="#hero" class="hover:text-red-500 transition-colors">Home</a>
+            <a href="#rebel" class="hover:text-red-500 transition-colors">The Rebel</a>
+            <a href="#writer" class="hover:text-red-500 transition-colors">পাণ্ডুলিপি</a>
+            <a href="#photo" class="hover:text-red-500 transition-colors">Photo Editor</a>
+        </div>
+        <div>
+            <button id="loginBtn" class="bg-white text-black px-4 py-1 text-xs font-bold uppercase tracking-tighter hover:bg-red-500 hover:text-white transition-all">Admin</button>
+            <button id="logoutBtn" class="hidden bg-red-600 text-white px-4 py-1 text-xs font-bold uppercase tracking-tighter hover:bg-red-700 transition-all">Logout</button>
+        </div>
+    </nav>
+
+    <!-- SECTION 0: HERO SECTION -->
+    <section id="hero" class="min-h-screen hero-gradient flex items-center pt-20 px-6 lg:px-24">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full">
+            <div class="order-2 lg:order-1 space-y-8 fade-in">
+                <div class="space-y-2">
+                    <h2 class="text-red-500 font-bold uppercase tracking-[0.3em] text-sm">Welcome to my dimension</h2>
+                    <h1 class="cinzel text-5xl md:text-7xl font-bold leading-tight" id="hero-name">Sheikh Mahadi Rahman Sami</h1>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-400 text-sm border-l border-red-500/30 pl-6">
+                    <p><span class="text-white font-semibold">DOB:</span> 25.06.2009</p>
+                    <p><span class="text-white font-semibold">Institution:</span> Dhaka College</p>
+                    <p><span class="text-white font-semibold">Blood Group:</span> O+</p>
+                    <p><span class="text-white font-semibold">Email:</span> sheikhmahadirahmansami@gmail.com</p>
+                    <p><span class="text-white font-semibold">Phone:</span> 01410430830</p>
+                </div>
+
+                <div class="flex space-x-4 pt-4">
+                    <a href="mailto:sheikhmahadirahmansami@gmail.com" class="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-none transition-all font-bold uppercase tracking-widest text-xs flex items-center">
+                        Contact Me <i data-lucide="arrow-right" class="ml-2 w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="order-1 lg:order-2 flex justify-center fade-in">
+                <div class="relative group">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-red-600 to-black rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                    <div class="relative w-64 h-64 md:w-80 md:h-80 overflow-hidden border-2 border-white/10 rounded-full" id="profile-container">
+                        <img id="hero-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Profile" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                    </div>
+                    <div class="admin-only absolute bottom-4 right-4">
+                        <label for="upload-hero-img" class="bg-white text-black p-2 rounded-full cursor-pointer hover:bg-red-500 transition-colors">
+                            <i data-lucide="camera" class="w-5 h-5"></i>
+                        </label>
+                        <input type="file" id="upload-hero-img" class="hidden" accept="image/*">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 1: THE REBEL -->
+    <section id="rebel" class="rebel-bg min-h-screen py-24 px-6 lg:px-24 flex flex-col justify-center relative">
+        <div class="absolute top-0 left-0 w-full h-full bg-black/40 pointer-events-none"></div>
+        <div class="relative z-10 max-w-4xl">
+            <h2 class="cinzel text-red-500 text-lg tracking-[0.5em] mb-4">SECTION 01</h2>
+            <h1 class="text-5xl md:text-8xl font-black uppercase tracking-tighter mb-8 leading-none" id="rebel-title">Raise Your Voice, Raise The Movement</h1>
+            
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mt-12">
+                <div class="md:col-span-7 space-y-12">
+                    <div class="content-block">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-2xl font-bold uppercase tracking-widest text-red-500">My Vision</h3>
+                            <button class="admin-only text-xs bg-white/10 px-2 py-1" onclick="editContent('rebel-vision')">Edit</button>
+                        </div>
+                        <div id="rebel-vision" class="text-gray-300 leading-relaxed text-lg italic border-l-4 border-red-600 pl-6">
+                            "The world doesn't change by silence. It changes by those who dare to scream against the void. I am here to disrupt the comfortable and comfort the disturbed."
+                        </div>
+                    </div>
+
+                    <div class="content-block">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-2xl font-bold uppercase tracking-widest text-red-500">My Research</h3>
+                            <button class="admin-only text-xs bg-white/10 px-2 py-1" onclick="showUploadModal('research')">Add Entry</button>
+                        </div>
+                        <div id="research-list" class="space-y-4">
+                            <div class="bg-white/5 p-6 border border-white/10 hover:border-red-500/50 transition-all flex justify-between items-center group">
+                                <div>
+                                    <h4 class="font-bold text-white">Social Paradigm Shifts in Gen-Z</h4>
+                                    <p class="text-xs text-gray-500">PDF • 1.2 MB • 2023</p>
+                                </div>
+                                <a href="#" class="text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"><i data-lucide="download"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:col-span-5 space-y-8">
+                    <div class="bg-black/80 p-8 border border-white/5">
+                        <h3 class="text-xl font-bold mb-6 flex items-center"><i data-lucide="message-square" class="mr-2 text-red-500"></i> Ask Any Question</h3>
+                        <form class="space-y-4">
+                            <input type="text" placeholder="Your Name" class="w-full bg-white/5 border border-white/10 p-3 focus:outline-none focus:border-red-500 transition-colors">
+                            <textarea placeholder="Ask something..." rows="4" class="w-full bg-white/5 border border-white/10 p-3 focus:outline-none focus:border-red-500 transition-colors"></textarea>
+                            <button class="w-full bg-red-600 py-3 font-bold uppercase tracking-widest text-sm hover:bg-red-700 transition-all">Transmit</button>
+                        </form>
+                    </div>
+                    <div class="text-xs tracking-[0.2em] text-gray-500 uppercase">
+                        <p class="mb-2">Contact: raisevoiceraisemovement@gmail.com</p>
+                        <p>Status: Active Movement</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: CREATIVE WRITER (পাণ্ডুলিপি) -->
+    <section id="writer" class="writer-bg min-h-screen py-24 px-6 lg:px-24 vignette relative overflow-hidden">
+        <div class="absolute top-0 right-0 p-12 opacity-10 pointer-events-none">
+            <i data-lucide="feather" class="w-64 h-64 text-brown-900"></i>
+        </div>
+
+        <div class="max-w-5xl mx-auto">
+            <header class="text-center mb-20">
+                <h2 class="text-sm uppercase tracking-[0.4em] mb-4 opacity-60">Section 02</h2>
+                <h1 class="bengali text-6xl md:text-8xl font-bold mb-4" id="writer-title">পাণ্ডুলিপি</h1>
+                <div class="w-24 h-1 bg-black/10 mx-auto"></div>
+                <p class="mt-6 italic opacity-70 playfair text-xl">"A midnight writer’s room. A poetic sanctuary."</p>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                <div class="lg:col-span-2 space-y-12">
+                    <div class="flex justify-between items-end mb-8 border-b border-black/10 pb-4">
+                        <h3 class="playfair text-3xl font-bold">My Writings</h3>
+                        <button class="admin-only bg-black/80 text-white px-4 py-2 text-xs" onclick="showWritingModal()">New Manuscript</button>
+                    </div>
+
+                    <div id="manuscripts-container" class="space-y-12">
+                        <article class="manuscript-card p-8 md:p-12 shadow-sm rounded-sm">
+                            <h4 class="bengali text-4xl mb-6">অসমাপ্ত যুদ্ধের গান</h4>
+                            <div class="bengali text-lg leading-relaxed text-black/80 space-y-4">
+                                <p>রক্তাক্ত দিগন্তের নিচে যখন শহরটা ঘুমিয়ে পড়ে, তখন আমি জেগে থাকি আমার ভাঙা কলমটা নিয়ে। বাতাসের গুমোট ঘ্রাণ আমাকে মনে করিয়ে দেয় সেই সব হারানো বিকেলের কথা...</p>
+                            </div>
+                            <div class="mt-8 flex justify-between items-center text-sm italic opacity-50">
+                                <span>Published: Oct 2023</span>
+                                <button class="hover:underline">Read Full Piece</button>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+
+                <div class="space-y-8">
+                    <div class="relative w-full aspect-[3/4] overflow-hidden grayscale contrast-125 rounded-sm shadow-2xl">
+                        <img id="writer-img" src="https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt="Writer">
+                        <div class="admin-only absolute bottom-4 right-4">
+                            <label for="upload-writer-img" class="bg-black text-white p-2 cursor-pointer hover:bg-brown-800 transition-colors">
+                                <i data-lucide="camera" class="w-4 h-4"></i>
+                            </label>
+                            <input type="file" id="upload-writer-img" class="hidden" accept="image/*">
+                        </div>
+                    </div>
+
+                    <div class="bg-black/5 p-8 border border-black/5">
+                        <h4 class="playfair font-bold text-xl mb-4">Your Emotion</h4>
+                        <p class="text-sm mb-4 opacity-70">How do these words resonate with your soul?</p>
+                        <textarea class="w-full bg-white/50 border border-black/10 p-4 focus:outline-none focus:border-black transition-colors rounded-sm" rows="4" placeholder="Type your feelings..."></textarea>
+                        <button class="mt-4 w-full bg-black text-white py-2 text-xs uppercase tracking-[0.2em] hover:bg-zinc-800 transition-all">Submit Reflection</button>
+                    </div>
+
+                    <div class="text-center">
+                        <a href="mailto:sheikhmahadirahmansami@gmail.com" class="inline-flex items-center text-sm font-bold border-b-2 border-black pb-1 hover:opacity-50 transition-all">
+                            LEAVE A MESSAGE <i data-lucide="mail" class="ml-2 w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: PHOTO EDITOR -->
+    <section id="photo" class="bg-zinc-950 min-h-screen py-24 px-6 lg:px-24">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+                <div>
+                    <h2 class="text-red-500 font-bold tracking-[0.4em] mb-4 text-sm">SECTION 03</h2>
+                    <h1 class="cinzel text-5xl md:text-7xl font-bold" id="photo-title">Photo Editor</h1>
+                    <p class="mt-4 text-gray-500 max-w-lg">Manipulating light and shadow to create visual narratives. Specialized in high-fashion, cinematic retouching, and architectural compositions.</p>
+                </div>
+                <div class="flex flex-col items-end gap-2">
+                    <button class="admin-only bg-white text-black px-6 py-2 text-xs font-bold uppercase mb-4" onclick="showGalleryModal()">Add Project</button>
+                    <div class="text-right text-xs text-gray-500 uppercase tracking-widest">
+                        <p>Mobile: 01410430830</p>
+                        <a href="mailto:sheikhmahadirahmansami@gmail.com" class="text-white hover:text-red-500">Hire Me</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Before/After Slider (Featured Project) -->
+            <div class="mb-20">
+                <h3 class="text-xs uppercase tracking-[0.3em] text-gray-400 mb-8 border-l-2 border-red-600 pl-4">Featured Retouching</h3>
+                <div class="relative w-full aspect-video overflow-hidden group cursor-ew-resize select-none" id="ba-slider">
+                    <!-- After Image -->
+                    <img src="https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?auto=format&fit=crop&w=1600&q=80" class="absolute inset-0 w-full h-full object-cover">
+                    <!-- Before Image (Clipped) -->
+                    <div id="before-img" class="absolute inset-0 w-1/2 overflow-hidden border-r-2 border-white/50 z-10">
+                        <img src="https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?auto=format&fit=crop&w=1600&q=80" class="absolute inset-0 w-[200%] h-full object-cover grayscale brightness-50 contrast-125">
+                    </div>
+                    <!-- Slider Handle -->
+                    <div id="slider-handle" class="absolute top-0 bottom-0 left-1/2 w-1 bg-white z-20 shadow-xl flex items-center justify-center">
+                        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-black -ml-0.5">
+                            <i data-lucide="move-horizontal" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-between text-[10px] uppercase tracking-widest text-gray-500">
+                    <span>Original Raw</span>
+                    <span>Cinematic Edit</span>
+                </div>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div id="gallery-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Project Item -->
+                <div class="group relative overflow-hidden bg-zinc-900 aspect-square cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
+                    <div class="absolute bottom-0 left-0 p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <p class="text-red-500 text-xs font-bold uppercase mb-2">Cinematic Color</p>
+                        <h3 class="text-2xl font-bold">Midnight Tokyo</h3>
+                    </div>
+                    <button class="admin-only absolute top-4 right-4 bg-red-600 p-2" onclick="this.closest('.group').remove()"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                </div>
+                
+                <div class="group relative overflow-hidden bg-zinc-900 aspect-square cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
+                    <div class="absolute bottom-0 left-0 p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <p class="text-red-500 text-xs font-bold uppercase mb-2">Portrait</p>
+                        <h3 class="text-2xl font-bold">The Silent Gaze</h3>
+                    </div>
+                    <button class="admin-only absolute top-4 right-4 bg-red-600 p-2" onclick="this.closest('.group').remove()"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                </div>
+
+                <div id="new-project-placeholder" class="admin-only border-2 border-dashed border-white/10 flex flex-col items-center justify-center aspect-square hover:bg-white/5 cursor-pointer transition-all" onclick="showGalleryModal()">
+                    <i data-lucide="plus-circle" class="w-12 h-12 mb-4 text-gray-500"></i>
+                    <span class="text-xs uppercase font-bold tracking-widest text-gray-500">Add New Project</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-12 border-t border-white/5 text-center text-xs tracking-[0.5em] text-gray-600 uppercase">
+        &copy; 2024 Sheikh Mahadi Rahman Sami | All Rights Reserved
+    </footer>
+
+    <!-- ADMIN MODALS -->
+    <div id="loginModal" class="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm hidden items-center justify-center p-6">
+        <div class="bg-zinc-900 p-8 border border-white/10 w-full max-w-md">
+            <h2 class="cinzel text-2xl font-bold mb-6 text-center">Identity Verification</h2>
+            <input type="password" id="adminPass" placeholder="Enter Security Key" class="w-full bg-white/5 border border-white/10 p-4 mb-4 focus:outline-none focus:border-red-500 text-center tracking-widest">
+            <div class="flex gap-4">
+                <button id="closeLogin" class="flex-1 border border-white/10 py-3 text-xs uppercase font-bold hover:bg-white/5 transition-all">Cancel</button>
+                <button id="verifyLogin" class="flex-1 bg-red-600 py-3 text-xs uppercase font-bold hover:bg-red-700 transition-all">Unlock</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN ACTION MODAL (Generic for simple edits) -->
+    <div id="editModal" class="fixed inset-0 z-[110] bg-black/95 flex hidden items-center justify-center p-6">
+        <div class="bg-zinc-900 p-8 border border-white/10 w-full max-w-2xl">
+            <h2 class="playfair text-2xl mb-6">Modify Content</h2>
+            <textarea id="editTextarea" rows="10" class="w-full bg-white/5 border border-white/10 p-4 mb-4 focus:outline-none focus:border-red-500"></textarea>
+            <div class="flex gap-4 justify-end">
+                <button onclick="closeModal('editModal')" class="px-6 py-2 text-xs uppercase border border-white/10">Cancel</button>
+                <button id="saveEditBtn" class="px-6 py-2 text-xs uppercase bg-red-600">Apply Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Admin System
+        const ADMIN_PASS = "$@M!2213590786";
+        let isAdmin = false;
+
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const loginModal = document.getElementById('loginModal');
+        const adminPassInput = document.getElementById('adminPass');
+        const verifyLogin = document.getElementById('verifyLogin');
+        const closeLogin = document.getElementById('closeLogin');
+
+        loginBtn.addEventListener('click', () => {
+            loginModal.classList.remove('hidden');
+            loginModal.classList.add('flex');
+        });
+
+        closeLogin.addEventListener('click', () => {
+            loginModal.classList.add('hidden');
+            loginModal.classList.remove('flex');
+        });
+
+        verifyLogin.addEventListener('click', () => {
+            if (adminPassInput.value === ADMIN_PASS) {
+                activateAdmin();
+                loginModal.classList.add('hidden');
+                loginModal.classList.remove('flex');
+                adminPassInput.value = '';
+                alert("Admin Mode Activated.");
+            } else {
+                alert("Incorrect Credentials.");
+                adminPassInput.value = '';
+            }
+        });
+
+        function activateAdmin() {
+            isAdmin = true;
+            document.body.classList.add('is-admin');
+            loginBtn.classList.add('hidden');
+            logoutBtn.classList.remove('hidden');
+            localStorage.setItem('smrs_admin', 'true');
+        }
+
+        logoutBtn.addEventListener('click', () => {
+            isAdmin = false;
+            document.body.classList.remove('is-admin');
+            loginBtn.classList.remove('hidden');
+            logoutBtn.classList.add('hidden');
+            localStorage.removeItem('smrs_admin');
+            window.location.reload();
+        });
+
+        // Check persistent session
+        if (localStorage.getItem('smrs_admin') === 'true') {
+            activateAdmin();
+        }
+
+        // Editing Functionality
+        let currentEditingId = null;
+        function editContent(id) {
+            if (!isAdmin) return;
+            currentEditingId = id;
+            const element = document.getElementById(id);
+            const editTextarea = document.getElementById('editTextarea');
+            editTextarea.value = element.innerText;
+            document.getElementById('editModal').classList.remove('hidden');
+        }
+
+        document.getElementById('saveEditBtn').addEventListener('click', () => {
+            const newValue = document.getElementById('editTextarea').value;
+            if (currentEditingId) {
+                document.getElementById(currentEditingId).innerText = newValue;
+                // Save to localStorage to persist for current user session/browser
+                localStorage.setItem(`content_${currentEditingId}`, newValue);
+            }
+            closeModal('editModal');
+        });
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        // Image Upload Simulation
+        function setupImageUpload(inputId, targetImgId) {
+            document.getElementById(inputId).addEventListener('change', function(e) {
+                if (e.target.files && e.target.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        document.getElementById(targetImgId).src = event.target.result;
+                        localStorage.setItem(`img_${targetImgId}`, event.target.result);
+                    }
+                    reader.readAsDataURL(e.target.files[0]);
+                }
+            });
+        }
+
+        setupImageUpload('upload-hero-img', 'hero-img');
+        setupImageUpload('upload-writer-img', 'writer-img');
+
+        // Load Persisted Content
+        window.addEventListener('load', () => {
+            const editableElements = ['rebel-vision', 'rebel-title', 'writer-title', 'photo-title', 'hero-name'];
+            editableElements.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) {
+                    const saved = localStorage.getItem(`content_${id}`);
+                    if (saved) el.innerText = saved;
+                    
+                    // Add click listeners if admin
+                    el.addEventListener('click', () => {
+                        if (isAdmin) editContent(id);
+                    });
+                    el.title = "Click to edit (Admin)";
+                }
+            });
+
+            const imgs = ['hero-img', 'writer-img'];
+            imgs.forEach(id => {
+                const savedImg = localStorage.getItem(`img_${id}`);
+                if (savedImg) document.getElementById(id).src = savedImg;
+            });
+        });
+
+        // Special Modals for Sections (Placeholders for UI demonstration)
+        function showUploadModal(type) {
+            if(!isAdmin) return;
+            alert(`Opening ${type} upload manager...`);
+        }
+
+        function showWritingModal() {
+            if(!isAdmin) return;
+            const title = prompt("Enter Title:");
+            const content = prompt("Enter Content:");
+            if (title && content) {
+                const container = document.getElementById('manuscripts-container');
+                const article = document.createElement('article');
+                article.className = "manuscript-card p-8 md:p-12 shadow-sm rounded-sm";
+                article.innerHTML = `
+                    <h4 class="bengali text-4xl mb-6">${title}</h4>
+                    <div class="bengali text-lg leading-relaxed text-black/80 space-y-4">
+                        <p>${content}</p>
+                    </div>
+                    <div class="mt-8 flex justify-between items-center text-sm italic opacity-50">
+                        <span>Just now</span>
+                        <button class="text-red-800 font-bold admin-only" onclick="this.closest('article').remove()">Delete</button>
+                    </div>
+                `;
+                container.prepend(article);
+            }
+        }
+
+        // Before/After Slider Logic
+        const slider = document.getElementById('ba-slider');
+        const beforeImg = document.getElementById('before-img');
+        const handle = document.getElementById('slider-handle');
+
+        if (slider) {
+            const move = (e) => {
+                let x = (e.pageX || e.touches[0].pageX) - slider.getBoundingClientRect().left;
+                let percent = (x / slider.offsetWidth) * 100;
+                if (percent < 0) percent = 0;
+                if (percent > 100) percent = 100;
+                beforeImg.style.width = percent + '%';
+                handle.style.left = percent + '%';
+            };
+
+            slider.addEventListener('mousemove', move);
+            slider.addEventListener('touchmove', move);
+        }
+
+        function showGalleryModal() {
+            if(!isAdmin) return;
+            const title = prompt("Project Title:");
+            const category = prompt("Category (e.g. Portrait, Cinematic):");
+            const imgUrl = prompt("Image URL (Unsplash or direct link):");
+            
+            if (title && imgUrl) {
+                const grid = document.getElementById('gallery-grid');
+                const placeholder = document.getElementById('new-project-placeholder');
+                const div = document.createElement('div');
+                div.className = "group relative overflow-hidden bg-zinc-900 aspect-square cursor-pointer";
+                div.innerHTML = `
+                    <img src="${imgUrl}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
+                    <div class="absolute bottom-0 left-0 p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <p class="text-red-500 text-xs font-bold uppercase mb-2">${category || 'Retouch'}</p>
+                        <h3 class="text-2xl font-bold">${title}</h3>
+                    </div>
+                    <button class="admin-only absolute top-4 right-4 bg-red-600 p-2" onclick="this.closest('.group').remove()"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                `;
+                grid.insertBefore(div, placeholder);
+                lucide.createIcons();
+            }
+        }
+
+        // Research Entry Admin
+        function showUploadModal(type) {
+            if(!isAdmin) return;
+            const title = prompt("Entry Title:");
+            if (title) {
+                const list = document.getElementById('research-list');
+                const div = document.createElement('div');
+                div.className = "bg-white/5 p-6 border border-white/10 hover:border-red-500/50 transition-all flex justify-between items-center group";
+                div.innerHTML = `
+                    <div>
+                        <h4 class="font-bold text-white">${title}</h4>
+                        <p class="text-xs text-gray-500">NEW ENTRY • JUST NOW</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="admin-only text-red-500" onclick="this.closest('.group').parentElement.remove()"><i data-lucide="trash-2"></i></button>
+                        <a href="#" class="text-red-500"><i data-lucide="download"></i></a>
+                    </div>
+                `;
+                list.prepend(div);
+                lucide.createIcons();
+            }
+        }
+
+        // Intersection Observer for scroll animations
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = "0";
+            observer.observe(section);
+        });
+
+        // Add explicit CSS class for fade-in effect to handle initial state
+        const style = document.createElement('style');
+        style.innerHTML = `
+            section.fade-in {
+                opacity: 1 !important;
+                transition: opacity 1.5s ease-out;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Particle Generation for Writer Section
+        function createParticles() {
+            const writerSection = document.getElementById('writer');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 4 + 2 + 'px';
+                particle.style.width = size;
+                particle.style.height = size;
+                
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                
+                const duration = Math.random() * 10 + 10 + 's';
+                const delay = Math.random() * 10 + 's';
+                particle.style.animation = `float ${duration} linear ${delay} infinite`;
+                
+                writerSection.appendChild(particle);
+            }
+        }
+
+        createParticles();
+
+    </script>
+</body>
+</html>
